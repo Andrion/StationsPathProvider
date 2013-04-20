@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.signalR-1.0.1.min.js"></script>
+    <script type="text/javascript" src="~/signalr/hubs"></script>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var info = $.connection.info;
+
+            var progressBar = $("#progressBar");
+
+            info.client.onProgress = function (data) {
+                progressBar.width(data.Progress + "%");
+            };
+
+            $.connection.hub.start();
+        });
+    </script>
+}
+
+<div class="progress">
+    <div class="bar" id="progressBar"></div>
+</div>
