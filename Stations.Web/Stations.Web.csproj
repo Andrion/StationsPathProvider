@@ -166,9 +166,7 @@
       <DependentUpon>201304171055003_AddIFStationsTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\ConnectionFactory.cs" />
     <Compile Include="Models\DataContext.cs" />
-    <Compile Include="Models\IFStation.cs" />
     <Compile Include="Models\Info.cs" />
     <Compile Include="Models\ScheduleItem.cs" />
     <Compile Include="Models\Station.cs" />

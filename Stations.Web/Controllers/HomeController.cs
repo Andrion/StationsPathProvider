@@ -45,16 +45,6 @@
             return this.View("Progress");
         }
 
-        public ActionResult ParseIFStations()
-        {
-            Task operationTask = Task.Run(() =>
-            {
-                this.DoParseIFStations();
-            });
-
-            return this.View("Progress");
-        }
-
         public ActionResult ImportTransportTypes()
         {
             String[] transportTypes = new[]
@@ -157,78 +147,6 @@
                         Progress =
                             ((handledStationCount == stations.Count) ? 1 : ((Single) handledStationCount/stations.Count))*
                                 100,
-                        Operation = stationName
-                    };
-
-                    progressHubContext.Clients.All.onProgress(info);
-                }
-            }
-        }
-
-        private async Task DoParseIFStations()
-        {
-            HttpClient client = new HttpClient();
-            IHubContext progressHubContext = GlobalHost.ConnectionManager.GetHubContext<ProgressHub>();
-
-            Int32 handledStationCount = 0;
-
-            Int32 start = 90001;
-            Int32 end = 90657;
-
-            using (DataContext dataContext = new DataContext())
-            {
-                for (Int32 i = start; i <= end; i++)
-                {
-                    String url = String.Format("http://maps.interfax.by/details/feed.view?city_id=8&type=1&object_id={0}", i);
-
-                    String htmlContent = await client.GetStringAsync(url);
-
-                    HtmlDocument html = new HtmlDocument();
-                    html.LoadHtml(htmlContent);
-
-                    HtmlNode document = html.DocumentNode;
-
-                    handledStationCount++;
-
-                    if (document.QuerySelector(".info-panel") != null)
-                    {
-                        continue;
-                    }
-
-                    HtmlNode infoBlock = document.QuerySelector(".nav-block");
-
-                    String stationName = infoBlock.QuerySelector("h2").InnerText;
-
-                    String stationCode = infoBlock.QuerySelector("p").InnerText;
-                    stationCode = Regex.Match(stationCode, @"№(?<code>\w+)").Groups["code"].Value;
-
-                    Int32 code = 0;
-                    Int32.TryParse(stationCode, out code);
-
-                    String coordStr = document.QuerySelector("a.transport").GetAttributeValue("href", String.Empty);
-                    Match latLngMatch = Regex.Match(coordStr, @"transport_b=(?<lng>\d+\.\d+);(?<lat>\d+\.\d+)&");
-
-                    Double lat = 0;
-                    Double lng = 0;
-
-                    Double.TryParse(latLngMatch.Groups["lat"].Value.Replace('.', ','), out lat);
-                    Double.TryParse(latLngMatch.Groups["lng"].Value.Replace('.', ','), out lng);
-                    
-                    IFStation station = new IFStation()
-                    {
-                        Code = code,
-                        IFID = i,
-                        Lat = lat,
-                        Lng = lng,
-                        Name = stationName
-                    };
-
-                    dataContext.IFStations.Add(station);
-                    dataContext.SaveChanges();
-
-                    Info info = new Info()
-                    {
-                        Progress = ((handledStationCount + start == end) ? 1 : ((Single) handledStationCount / (end - start)))*100,
                         Operation = stationName
                     };
 

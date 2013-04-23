@@ -31,8 +31,6 @@
 
         public DbSet<ScheduleItem> ScheduleItems { get; set; }
 
-        public DbSet<IFStation> IFStations { get; set; }
-
         #endregion DbSets
     }
 }
