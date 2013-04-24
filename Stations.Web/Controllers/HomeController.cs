@@ -71,7 +71,7 @@
             return this.Content("Transport types imported");
         }
 
-        private async Task DoParseStations()
+        private async void DoParseStations()
         {
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync("http://proezd.by/js/localdata.js");

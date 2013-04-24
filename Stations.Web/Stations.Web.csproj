@@ -165,6 +165,10 @@
     <Compile Include="Migrations\201304171055003_AddIFStationsTable.Designer.cs">
       <DependentUpon>201304171055003_AddIFStationsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201304241629478_Reorganize.cs" />
+    <Compile Include="Migrations\201304241629478_Reorganize.Designer.cs">
+      <DependentUpon>201304241629478_Reorganize.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\Direction.cs" />
@@ -235,6 +239,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201304171055003_AddIFStationsTable.resx">
       <DependentUpon>201304171055003_AddIFStationsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304241629478_Reorganize.resx">
+      <DependentUpon>201304241629478_Reorganize.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
