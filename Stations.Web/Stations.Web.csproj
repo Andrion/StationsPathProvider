@@ -167,7 +167,13 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DataContext.cs" />
+    <Compile Include="Models\Direction.cs" />
+    <Compile Include="Models\DirectionStations.cs" />
+    <Compile Include="Models\Entity.cs" />
+    <Compile Include="Models\GStation.cs" />
     <Compile Include="Models\Info.cs" />
+    <Compile Include="Models\MapGStation.cs" />
+    <Compile Include="Models\Schedule.cs" />
     <Compile Include="Models\ScheduleItem.cs" />
     <Compile Include="Models\Station.cs" />
     <Compile Include="Models\Group.cs" />

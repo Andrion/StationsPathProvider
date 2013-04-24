@@ -29,7 +29,7 @@
         {
             using (DataContext dataContext = new DataContext())
             {
-                IEnumerable<String> transports = dataContext.Stations.Select(q => q.FullName).ToList();
+                IEnumerable<String> transports = dataContext.Stations.Select(q => q.Name).ToList();
 
                 return this.View(transports);
             }
@@ -103,12 +103,6 @@
 
                     HtmlNode listNode = document.QuerySelector(".spisok_na_vivod_33");
 
-                    Group group = new Group()
-                    {
-                        Name = stationName
-                    };
-
-                    dataContext.Groups.Add(group);
                     dataContext.SaveChanges();
 
                     foreach (HtmlNode infoNode in listNode.QuerySelectorAll(".vivod_33 a"))
@@ -130,10 +124,8 @@
 
                         Station station = new Station()
                         {
-                            GroupID = group.ID,
                             Code = code,
-                            Name = description,
-                            FullName = name
+                            Name = name,
                         };
 
                         dataContext.Stations.Add(station);
@@ -188,19 +180,16 @@
                             String number = numbStr.Substring(numbStr.IndexOf('_') + 1);
                             String name = transportInfoNode.InnerText;
 
-                            Transport transport = dataContext.Transports.FirstOrDefault(q => q.Number == number);
+                            Transport transport = dataContext.Transports.FirstOrDefault(q => q.Name == number);
                             if (transport == null)
                             {
                                 transport = new Transport()
                                 {
-                                    Name = name,
-                                    Number = number,
+                                    Name = number,
                                     TypeID = busType.ID
                                 };
                                 dataContext.SaveChanges();
                             }
-
-                            
                         }
                     }
                 }

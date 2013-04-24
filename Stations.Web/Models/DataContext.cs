@@ -21,13 +21,19 @@
 
         #region DbSets
 
-        public DbSet<Group> Groups { get; set; }
-
         public DbSet<Station> Stations { get; set; }
+
+        public DbSet<GStation> GStations { get; set; }
 
         public DbSet<Transport> Transports { get; set; }
 
+        public DbSet<Direction> Directions { get; set; }
+
+        public DbSet<DirectionStation> DirectionStations { get; set; }
+
         public DbSet<TransportType> TransportTypes { get; set; }
+
+        public DbSet<Schedule> Schedules { get; set; }
 
         public DbSet<ScheduleItem> ScheduleItems { get; set; }
 
