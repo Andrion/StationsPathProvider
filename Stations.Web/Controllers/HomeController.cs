@@ -15,6 +15,7 @@
     using Fizzler;
     using Fizzler.Systems.HtmlAgilityPack;
     using Group = Models.Group;
+    using Stations.Web.Helpers;
 
     /// <summary>
     /// Home controller.
@@ -192,6 +193,82 @@
                             }
                         }
                     }
+                }
+            }
+        }
+
+        public ActionResult ParseBusTransports()
+        {
+            Task operationTask = Task.Run(() =>
+            {
+                this.DoParseRoutes(ProezdByUrlDictionary.BusRoutesList, "Автобусы", "transport?vt=a&t=avtobus_");
+            });
+
+            return this.View("Progress");
+        }
+
+        public ActionResult ParseTrolleybusTransports()
+        {
+            Task operationTask = Task.Run(() =>
+            {
+                this.DoParseRoutes(ProezdByUrlDictionary.TrolleybusRoutesList, "Троллейбусы", "transport?vt=t&t=trolleybus_");
+            });
+
+            return this.View("Progress");
+        }
+
+        /// <summary>
+        /// Does the parse routes.
+        /// </summary>
+        /// <returns></returns>
+        private async Task DoParseRoutes(String routesListUrl, String transportTypeName, String hrefBegin)
+        {
+            Int32 handledRouteCount = 0;
+            IHubContext progressHubContext = GlobalHost.ConnectionManager.GetHubContext<ProgressHub>();
+
+            using (HttpClient client = new HttpClient())
+            using (DataContext dataContext = new DataContext())
+            {
+                Guid busTypeId = dataContext.TransportTypes.First(x => x.Name.Equals(transportTypeName)).ID;
+                String pageContent = await client.GetStringAsync(routesListUrl);
+
+                HtmlDocument htmlDocument = new HtmlDocument();
+                htmlDocument.LoadHtml(pageContent);
+
+                HtmlNode document = htmlDocument.DocumentNode;
+                List<HtmlNode> busRouteLinks = document.QuerySelectorAll(".naprovlenie_odin_variant a").ToList();
+                List<String> busRouteLinksHref = busRouteLinks.Select(busRoute => busRoute.GetAttributeValue("href", String.Empty)).ToList();
+
+                // Extract route number
+                List<String> routes = busRouteLinksHref.Select(x =>
+                    {
+                        String temString = x.Remove(0, hrefBegin.Length);
+                        temString = temString.Split('&')[0];
+
+                        return temString;
+                    }).Distinct().ToList();
+
+                foreach (String route in routes)
+                {
+                    Transport transport = new Transport
+                    {
+                        Name = route,
+                        TypeID = busTypeId
+                    };
+                    dataContext.Transports.Add(transport);
+                    dataContext.SaveChanges();
+
+                    handledRouteCount++;
+
+                    Info info = new Info()
+                    {
+                        Progress =
+                            ((handledRouteCount == routes.Count) ? 1 : ((Single)handledRouteCount / routes.Count)) *
+                                100,
+                        Operation = route
+                    };
+
+                    progressHubContext.Clients.All.onProgress(info);
                 }
             }
         }
