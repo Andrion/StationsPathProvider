@@ -145,6 +145,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ProezdByUrlDictionary.cs" />
     <Compile Include="Migrations\201304141818138_InitialCreate.cs" />
     <Compile Include="Migrations\201304141818138_InitialCreate.Designer.cs">
       <DependentUpon>201304141818138_InitialCreate.cs</DependentUpon>
