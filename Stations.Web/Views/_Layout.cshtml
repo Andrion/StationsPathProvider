@@ -7,12 +7,36 @@
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/bootstrap-responsive.min.css" />
     <link rel="stylesheet" href="~/Content/style.css" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jQuery.tmpl.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/app.js"></script>
     @RenderSection("styles", false)
     @RenderSection("scripts", false)
 </head>
 <body>
     <div class="container">
-        @RenderBody()
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="brand" href="/">BelStations</a>
+                <ul class="nav">
+                    <li class="dropdown parserMenu" id="parserMenu">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">Parsers <i class="caret"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("ParseStations", "Parser")">Parse stations</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="@Url.Action("MapGStations", "Admin")">Map Google Stations</a></li>
+                    <li><a href="@Url.Action("MAPYStations", "Admin")">Map Yandex Stations</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="body">
+            @RenderBody()
+        </div>
     </div>
+    
+    @RenderSection("footer", false)
 </body>
 </html>

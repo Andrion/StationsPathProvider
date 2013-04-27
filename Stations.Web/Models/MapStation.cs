@@ -3,9 +3,9 @@
     using System;
 
     /// <summary>
-    /// Google station model.
+    /// Map station model.
     /// </summary>
-    public class GStation : Entity
+    public class MapStation : Entity
     {
         public String Name { get; set; }
 

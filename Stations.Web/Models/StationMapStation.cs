@@ -3,12 +3,12 @@
     using System;
 
     /// <summary>
-    /// Mapping Station - Google Station.
+    /// Mapping Station - Map Station.
     /// </summary>
-    public class MapGStation
+    public class StationMapStation
     {
         public Guid StationID { get; set; }
 
-        public Guid GStationID { get; set; }
+        public Guid MapStationID { get; set; }
     }
 }
