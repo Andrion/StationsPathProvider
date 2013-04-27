@@ -217,10 +217,6 @@
             return this.View("Progress");
         }
 
-        /// <summary>
-        /// Does the parse routes.
-        /// </summary>
-        /// <returns></returns>
         private async Task DoParseRoutes(String routesListUrl, String transportTypeName, String hrefBegin)
         {
             Int32 handledRouteCount = 0;
@@ -271,6 +267,243 @@
                     progressHubContext.Clients.All.onProgress(info);
                 }
             }
+        }
+
+        public ActionResult ParseDirections()
+        {
+            Task task = Task.Run(() =>
+                {
+                    this.DoParseDirections();
+                });
+
+            return this.View("Progress");
+        }
+
+        private async Task DoParseDirections()
+        {
+            Int32 handledRouteCount = 0;
+            IHubContext progressHubContext = GlobalHost.ConnectionManager.GetHubContext<ProgressHub>();
+
+            using (HttpClient client = new HttpClient())
+            using (DataContext dataContext = new DataContext())
+            {
+                // Get all transports
+                List<Transport> transports = dataContext.Transports.ToList();
+                List<Station> stations = dataContext.Stations.ToList<Station>();
+
+                // Get href attributes for bus
+                List<String> hrefs = new List<String>();
+                String pageContent = await client.GetStringAsync(ProezdByUrlDictionary.BusRoutesList);
+                hrefs.AddRange(ExtractDirectionStationsPageUrl(pageContent));
+
+                pageContent = await client.GetStringAsync(ProezdByUrlDictionary.TrolleybusRoutesList);
+                hrefs.AddRange(ExtractDirectionStationsPageUrl(pageContent));
+
+                foreach (Transport transport in transports)
+                {
+                    // Get transport type
+                    TransportType transportType = dataContext.TransportTypes.First(x => x.ID.Equals(transport.TypeID));
+
+                    switch (transportType.Name)
+                    {
+                        case ("Автобусы"):
+                            {
+                                #region Up direction
+
+                                String upDirectionUrl = String.Format(ProezdByUrlDictionary.BusUpDirectionUrl, transport.Name);
+                                if (hrefs.Contains(upDirectionUrl))
+                                {
+                                    pageContent = await client.GetStringAsync(upDirectionUrl);
+                                    List<Int32> directionStationsCodes = ExtractDirectionStationsCodes(pageContent);
+
+                                    // Create direction
+                                    Direction direction = new Direction
+                                    {
+                                        Name = transport.Name,
+                                        TransportID = transport.ID,
+                                        StartID = stations.AsParallel().First(x => x.Code.Equals(directionStationsCodes.First())).ID,
+                                        EndID = stations.AsParallel().First(x => x.Code.Equals(directionStationsCodes.Last())).ID
+                                    };
+                                    dataContext.Directions.Add(direction);
+                                    dataContext.SaveChanges();
+
+                                    // Create direction stations
+                                    for (Int32 i = 0; i < directionStationsCodes.Count; i++)
+                                    {
+                                        dataContext.DirectionStations.Add(new DirectionStation
+                                        {
+                                            DirectionID = direction.ID,
+                                            StationID = stations.AsParallel().First(x => x.Code.Equals(directionStationsCodes[i])).ID,
+                                            Order = i
+                                        });
+                                    }
+                                    dataContext.SaveChanges();
+                                }
+
+                                #endregion
+
+                                #region Down direction
+
+                                String downDirectionUrl = String.Format(ProezdByUrlDictionary.BusDownDirectionUrl, transport.Name);
+                                if (hrefs.Contains(downDirectionUrl))
+                                {
+                                    pageContent = await client.GetStringAsync(downDirectionUrl);
+                                    List<Int32> directionStationsCodes = ExtractDirectionStationsCodes(pageContent);
+
+                                    // Create direction
+                                    Direction direction = new Direction
+                                    {
+                                        Name = transport.Name,
+                                        TransportID = transport.ID,
+                                        StartID = stations.AsParallel().First(x => x.Code.Equals(directionStationsCodes.First())).ID,
+                                        EndID = stations.AsParallel().First(x => x.Code.Equals(directionStationsCodes.Last())).ID
+                                    };
+                                    dataContext.Directions.Add(direction);
+                                    dataContext.SaveChanges();
+
+                                    // Create direction stations
+                                    for (Int32 i = 0; i < directionStationsCodes.Count; i++)
+                                    {
+                                        dataContext.DirectionStations.Add(new DirectionStation
+                                        {
+                                            DirectionID = direction.ID,
+                                            StationID = stations.AsParallel().First(x => x.Code.Equals(directionStationsCodes[i])).ID,
+                                            Order = i
+                                        });
+                                    }
+                                    dataContext.SaveChanges();
+                                }
+
+                                #endregion
+                            } break;
+
+                        case ("Троллейбусы"):
+                            {
+                                #region Up direction
+
+                                String upDirectionUrl = String.Format(ProezdByUrlDictionary.TrolleybusUpDirectionUrl, transport.Name);
+                                if (hrefs.Contains(upDirectionUrl))
+                                {
+                                    pageContent = await client.GetStringAsync(upDirectionUrl);
+                                    List<Int32> directionStationsCodes = ExtractDirectionStationsCodes(pageContent);
+
+                                    Direction direction = new Direction
+                                    {
+                                        Name = transport.Name,
+                                        TransportID = transport.ID,
+                                        StartID = stations.AsParallel().First(x => x.Code.Equals(directionStationsCodes.First())).ID,
+                                        EndID = stations.AsParallel().First(x => x.Code.Equals(directionStationsCodes.Last())).ID
+                                    };
+                                    dataContext.Directions.Add(direction);
+                                    dataContext.SaveChanges();
+
+                                    // Create direction stations
+                                    for (Int32 i = 0; i < directionStationsCodes.Count; i++)
+                                    {
+                                        dataContext.DirectionStations.Add(new DirectionStation
+                                        {
+                                            DirectionID = direction.ID,
+                                            StationID = stations.AsParallel().First(x => x.Code.Equals(directionStationsCodes[i])).ID,
+                                            Order = i
+                                        });
+                                    }
+                                    dataContext.SaveChanges();
+                                }
+
+                                #endregion
+
+                                #region Down direction
+
+                                String downDirectionUrl = String.Format(ProezdByUrlDictionary.TrolleybusDownDirectionUrl, transport.Name);
+                                if (hrefs.Contains(downDirectionUrl))
+                                {
+                                    pageContent = await client.GetStringAsync(downDirectionUrl);
+                                    List<Int32> directionStationsCodes = ExtractDirectionStationsCodes(pageContent);
+
+                                    Direction direction = new Direction
+                                    {
+                                        Name = transport.Name,
+                                        TransportID = transport.ID,
+                                        StartID = stations.AsParallel().First(x => x.Code.Equals(directionStationsCodes.First())).ID,
+                                        EndID = stations.AsParallel().First(x => x.Code.Equals(directionStationsCodes.Last())).ID
+                                    };
+                                    dataContext.Directions.Add(direction);
+                                    dataContext.SaveChanges();
+
+                                    // Create direction stations
+                                    for (Int32 i = 0; i < directionStationsCodes.Count; i++)
+                                    {
+                                        dataContext.DirectionStations.Add(new DirectionStation
+                                        {
+                                            DirectionID = direction.ID,
+                                            StationID = stations.AsParallel().First(x => x.Code.Equals(directionStationsCodes[i])).ID,
+                                            Order = i
+                                        });
+                                    }
+                                    dataContext.SaveChanges();
+                                }
+
+                                #endregion
+                            } break;
+                    }
+
+                    #region Handle progress
+
+                    handledRouteCount++;
+
+                    Info info = new Info()
+                        {
+                            Progress =
+                                ((handledRouteCount == transports.Count)
+                                     ? 1
+                                     : ((Single) handledRouteCount/transports.Count))*
+                                100,
+                            Operation = transport.Name
+                        };
+
+                    progressHubContext.Clients.All.onProgress(info);
+
+                    #endregion
+                }
+            }
+        }
+
+        private List<String> ExtractDirectionStationsPageUrl(String pageContent)
+        {
+            HtmlDocument htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(pageContent);
+
+            HtmlNode document = htmlDocument.DocumentNode;
+            List<HtmlNode> routeLinks = document.QuerySelectorAll(".naprovlenie_odin_variant a").ToList();
+
+            List<String> hrefs = routeLinks.Select(
+                route => ProezdByUrlDictionary.BaseUrl + route.GetAttributeValue("href", String.Empty)).ToList();
+
+            return hrefs;
+        }
+
+        private List<Int32> ExtractDirectionStationsCodes(String pageContent)
+        {
+            String hrefBegin = "transportstop?id=";
+
+            HtmlDocument htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(pageContent);
+
+            HtmlNode document = htmlDocument.DocumentNode;
+            List<HtmlNode> stationsLinks = document.QuerySelectorAll(".vibirai ol a").ToList();
+
+            List<String> hrefs = stationsLinks.Select(
+                station => station.GetAttributeValue("href", String.Empty)).ToList();
+
+            List<Int32> stationsCodes = hrefs.Select(x =>
+                {
+                    String temString = x.Remove(0, hrefBegin.Length);
+                    temString = temString.Split('&')[0];
+
+                    return Convert.ToInt32(temString);
+                }).ToList();
+
+            return stationsCodes;
         }
     }
 }
