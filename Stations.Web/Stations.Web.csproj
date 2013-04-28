@@ -146,9 +146,11 @@
     <Compile Include="Controllers\ParserController.cs" />
     <Compile Include="Controllers\ProgressHub.cs" />
     <Compile Include="Controllers\StationsController.cs" />
+    <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ProezdByUrlDictionary.cs" />
     <Compile Include="Helpers\CamelCaseResolver.cs" />
     <Compile Include="Helpers\JsonConverter.cs" />
     <Compile Include="Helpers\JsonNetResult.cs" />
