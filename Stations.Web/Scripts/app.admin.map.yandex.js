@@ -7,7 +7,7 @@ var viewAllObjects = false;
 
 var cityName = "Гомель";
 
-var apiKey = "AMHTe1EBAAAAOEenHgQAz4QIRivO2iC7Wc4jbm8M698lUHUAAAAAAAAAAADaI3VteFcmN6TORqr7iEA95JNpxw==";
+var apiKey = ymapsApiKey;
 
 function init() {
     mapObjects = new ymaps.GeoObjectCollection();
