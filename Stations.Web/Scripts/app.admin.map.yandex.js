@@ -16,7 +16,7 @@ var replaceDictionary = {
 function init() {
     mapObjects = new ymaps.GeoObjectCollection();
 
-    ymaps.geocode("Гомель", { results: 1 }).then(function (result) {
+    ymaps.geocode(cityName, { results: 1 }).then(function (result) {
         var gomelObj = result.geoObjects.get(0);
         
         map = new ymaps.Map("map", {
@@ -50,11 +50,13 @@ function init() {
 ymaps.ready(init);
 
 $(function () {
+    var lstStations = $("#lstStations");
+    lstStations.showLoader();
+
     $.get("/stations/get", {}, function (data) {
         $("#tmplStation").tmpl(data).appendTo("#lstStations");
+        lstStations.hideLoader();
     });
-
-    var lstStations = $("#lstStations");
 
     lstStations.on("click", "li", function() {
         var elem = $(this);
