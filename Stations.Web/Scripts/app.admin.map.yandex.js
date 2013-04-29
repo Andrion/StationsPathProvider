@@ -9,6 +9,10 @@ var cityName = "Гомель";
 
 var apiKey = ymapsApiKey;
 
+var replaceDictionary = {
+    "мкр.": "микрорайон"
+};
+
 function init() {
     mapObjects = new ymaps.GeoObjectCollection();
 
@@ -81,8 +85,6 @@ $(function () {
         var lat = parseFloat(elem.data("lat"));
         var lng = parseFloat(elem.data("lng"));
 
-        console.log(lat, lng);
-
         setStation(id, lat, lng, function () {
             var li = lstStations.find("[data-id=" + id + "]");
             li.data("lat", lat);
@@ -97,6 +99,11 @@ $(function () {
 function filterName(name) {
     name = name.replace(/\s*\([-\s,._a-zA-Zа-яА-ЯёЁ]+\)$/, "");
     name = name.replace(/-[-_,.a-zA-Zа-яА-ЯёЁ]{1,}/, "");
+    
+    for (key in replaceDictionary) {
+        name = name.split(key).join(replaceDictionary[key]);
+    }
+
     console.log("search: ", name);
     return name;
 }
