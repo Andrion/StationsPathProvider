@@ -78,8 +78,10 @@ $(function () {
         var elem = $(this);
 
         var id = elem.data("id");
-        var lat = elem.data("lat");
-        var lng = elem.data("lng");
+        var lat = parseFloat(elem.data("lat"));
+        var lng = parseFloat(elem.data("lng"));
+
+        console.log(lat, lng);
 
         setStation(id, lat, lng, function () {
             var li = lstStations.find("[data-id=" + id + "]");
@@ -168,8 +170,8 @@ function setMarker(title, id, lat, lng, kind, sLat, sLng) {
 function setStation(id, lat, lng, callback) {
     var req = {
         id: id,
-        lat: parseFloat(lat.toString()),
-        lng: parseFloat(lng.toString())
+        lat: lat,
+        lng: lng
     };
 
     $.post("/stations/set", req, function (data) {
