@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿(function ($) {
     $.fn.showLoader = function () {
         var elem = $(this);
         var loader = $('<div class="loader" />')
@@ -24,7 +24,15 @@
             elem.removeData("loaderElem");
         }
     };
+    
+    $.extend($.expr[":"], {
+        containsi: function (e, i, m, s) {
+            return (e.textContent || e.innerText).toLowerCase().indexOf(m[3].toLowerCase()) > -1;
+        }
+    });
+})(jQuery);
 
+$(document).ready(function () {
     $(".navbar li a").each(function () {
         var elem = $(this);
         

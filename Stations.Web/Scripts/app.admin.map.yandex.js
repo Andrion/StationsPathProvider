@@ -46,8 +46,7 @@ function init() {
 
         map.controls.add(btnAllObjects, { right: 5, top: 5 });
     });
-}
-ymaps.ready(init);
+}ymaps.ready(init);
 
 $(function () {
     var lstStations = $("#lstStations");
@@ -56,6 +55,21 @@ $(function () {
     $.get("/stations/get", {}, function (data) {
         $("#tmplStation").tmpl(data).appendTo("#lstStations");
         lstStations.hideLoader();
+        $("#pNameFilter").show();
+    });
+
+    $("#tbxNameFilter").keyup(function () {
+        var elem = $(this);
+        var val = elem.val();
+
+        var liElems = lstStations.children("li");
+        
+        if (val.length == 0) {
+            liElems.show();
+        } else {
+            liElems.hide();
+            liElems.filter(":containsi(" + val + ")").show();
+        }
     });
 
     lstStations.on("click", "li", function() {
