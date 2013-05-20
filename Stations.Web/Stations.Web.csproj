@@ -140,12 +140,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ParserController.cs" />
     <Compile Include="Controllers\ProgressHub.cs" />
+    <Compile Include="Controllers\StationsController.cs" />
+    <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ProezdByUrlDictionary.cs" />
+    <Compile Include="Helpers\CamelCaseResolver.cs" />
+    <Compile Include="Helpers\JsonConverter.cs" />
+    <Compile Include="Helpers\JsonNetResult.cs" />
     <Compile Include="Migrations\201304141818138_InitialCreate.cs" />
     <Compile Include="Migrations\201304141818138_InitialCreate.Designer.cs">
       <DependentUpon>201304141818138_InitialCreate.cs</DependentUpon>
@@ -166,14 +174,21 @@
     <Compile Include="Migrations\201304171055003_AddIFStationsTable.Designer.cs">
       <DependentUpon>201304171055003_AddIFStationsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201304241629478_Reorganize.cs" />
+    <Compile Include="Migrations\201304241629478_Reorganize.Designer.cs">
+      <DependentUpon>201304241629478_Reorganize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201304271541348_RemoveMapStationAddHandledStation.cs" />
+    <Compile Include="Migrations\201304271541348_RemoveMapStationAddHandledStation.Designer.cs">
+      <DependentUpon>201304271541348_RemoveMapStationAddHandledStation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\DirectionStations.cs" />
     <Compile Include="Models\Entity.cs" />
-    <Compile Include="Models\GStation.cs" />
+    <Compile Include="Models\HandledStation.cs" />
     <Compile Include="Models\Info.cs" />
-    <Compile Include="Models\MapGStation.cs" />
     <Compile Include="Models\Schedule.cs" />
     <Compile Include="Models\ScheduleItem.cs" />
     <Compile Include="Models\Station.cs" />
@@ -197,15 +212,18 @@
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\Default.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\app.admin.map.google.js" />
+    <Content Include="Scripts\app.admin.map.yandex.js" />
+    <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery.signalR-1.0.1.js" />
     <Content Include="Scripts\jquery.signalR-1.0.1.min.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Scripts\jQuery.tmpl.js" />
+    <Content Include="Scripts\jQuery.tmpl.min.js" />
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -215,9 +233,12 @@
     <Content Include="Views\Web.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\_Layout.cshtml" />
-    <Content Include="Views\Home\Progress.cshtml" />
+    <Content Include="Views\Parser\Progress.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\ParseTime.cshtml" />
+    <Content Include="Views\Admin\MapGStations.cshtml" />
+    <Content Include="Views\Admin\TestMap.cshtml" />
+    <Content Include="Views\Admin\MAPYStations.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -240,6 +261,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201304171055003_AddIFStationsTable.resx">
       <DependentUpon>201304171055003_AddIFStationsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304241629478_Reorganize.resx">
+      <DependentUpon>201304241629478_Reorganize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304271541348_RemoveMapStationAddHandledStation.resx">
+      <DependentUpon>201304271541348_RemoveMapStationAddHandledStation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

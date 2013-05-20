@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "title";
+    Layout = "../_Layout.cshtml";
+}
+
+@section scripts {
+    <script type="text/javascript" src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU&key=AMHTe1EBAAAAOEenHgQAz4QIRivO2iC7Wc4jbm8M698lUHUAAAAAAAAAAADaI3VteFcmN6TORqr7iEA95JNpxw=="></script>
+    <script type="text/javascript" src="~/Scripts/app.admin.map.yandex.js"></script>
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <ul id="lstStations" class="stations unstyled window-height"></ul>
+        </div>
+        <div class="span9">
+            <div id="map" class="google-maps"></div>
+        </div>
+    </div>
+</div>
+
+
+@section footer {
+    <script type="text/x-jquery-tmpl" id="tmplStation">
+        <li class="station thumbnail" data-id="${station.id}" data-lat="${station.lat}" data-lng="${station.lng}">
+            <i class="icon-{{if handled != null}}ok{{else}}remove{{/if}}"></i>
+            ${station.name}
+        </li>
+    </script>
+}

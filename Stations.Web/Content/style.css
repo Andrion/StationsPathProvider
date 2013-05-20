@@ -1,3 +1,12 @@
 ﻿body {
     margin-top: 20px;
 }
+
+.stations { overflow-x: auto; }
+.stations .active { background: rgba(150, 255, 255, 0.3); }
+.station { margin: 6px 0; padding: 2px 8px; cursor: pointer; }
+
+/* Intellisense */
+.body {}
+.window-height {}
+/* End Intellisense */
