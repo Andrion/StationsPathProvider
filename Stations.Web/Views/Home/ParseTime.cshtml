@@ -1,0 +1,22 @@
+﻿@*@model IEnumerable<Stations.Web.Models.Station>
+@{
+    ViewBag.Title = "ParseTime";
+}
+
+@foreach (Stations.Web.Models.Station item in Model)
+{
+    @Html.Raw(String.Format("Code: {0}, but {1}", @item.Code, @item.Name))
+    <br />
+}*@
+@model IEnumerable<String>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+<ul>
+@foreach (var stationName in Model)
+{
+    <li>@stationName</li>
+}
+</ul>

@@ -36,5 +36,33 @@ namespace Stations.Web.Helpers
         /// {0} - trolleybus number
         /// </summary>
         public static String TrolleybusDownDirectionUrl = @"http://proezd.by/transport?vt=t&t=trolleybus_{0}&n=napravlenie_down";
+
+        /// <summary>
+        /// The bus up shedule
+        /// {0} - station id
+        /// {1} - bus number
+        /// </summary>
+        public static String BusUpSheduleUrl = @"http://proezd.by/transportstop?id={0}&trans=avtobus_{1}&nap=up";
+
+        /// <summary>
+        /// The bus down shedule
+        /// {0} - station id
+        /// {1} - bus number
+        /// </summary>
+        public static String BusDownSheduleUrl = @"http://proezd.by/transportstop?id={0}&trans=avtobus_{1}&nap=down";
+
+        /// <summary>
+        /// The trolleybus up shedule URL
+        /// {0} - station id
+        /// {1} - trolleybus number
+        /// </summary>
+        public static String TrolleybusUpSheduleUrl = @"http://proezd.by/transportstop?id={0}&trans=trolleybus_{1}&nap=up";
+
+        /// <summary>
+        /// The trolleybus down shedule URL
+        /// {0} - station id
+        /// {1} - trolleybus number
+        /// </summary>
+        public static String TrolleybusDownSheduleUrl = @"http://proezd.by/transportstop?id={0}&trans=trolleybus_{1}&nap=down";
     }
 }
