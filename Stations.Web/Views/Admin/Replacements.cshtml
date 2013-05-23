@@ -1,0 +1,33 @@
+﻿@model Stations.Web.Models.Replacement
+@{
+    ViewBag.Title = "Replacements";
+    Layout = "../_Layout.cshtml";
+}
+
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/app.admin.replacements.js"></script>
+}
+
+<div class="row">
+    <ul id="lstReplacements" class="unstyled"></ul>
+    
+    <a href="javascript:;" class="btn btn-primary" id="btnAddReplacement">Add</a>
+    @using (Html.BeginForm("SetReplacement", "Admin", FormMethod.Post, new { @class="form-inline hide", id = "frmAddReplacement" }))
+    {
+        <input type="text" class="value" placeholder="Value..." @Html.GetValidateAttributes(q => q.Value) />
+        <input type="text" class="replacement" placeholder="Replacement..." @Html.GetValidateAttributes(q => q.ReplaceValue) />
+        <input type="submit" class="btn btn-primary" value="Save" />
+    }
+</div>
+
+@section footer {
+    <script type="text/x-jquery-tmpl" id="tmplReplacement">
+        <li>
+            <div class="form-inline">
+                <input type="text" class="value" value="${value}" placeholder="Value..." />
+                <input type="text" class="replacement" value="${replaceValue}" placeholder="Replacement..." />
+                <a href="javascript:;" class="btn btn-link edit-replacement">Edit</a>
+            </div>
+        </li>
+    </script>
+}
