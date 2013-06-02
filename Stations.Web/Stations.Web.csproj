@@ -204,6 +204,7 @@
     <Compile Include="Models\ScheduleItem.cs" />
     <Compile Include="Models\Station.cs" />
     <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\TimeStopTransport.cs" />
     <Compile Include="Models\Transport.cs" />
     <Compile Include="Models\TransportType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -252,6 +253,7 @@
     <Content Include="Views\_Layout.cshtml" />
     <Content Include="Views\Parser\Progress.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\ParseTime.cshtml" />
     <Content Include="Views\Admin\MapGStations.cshtml" />
     <Content Include="Views\Admin\TestMap.cshtml" />
     <Content Include="Views\Admin\MAPYStations.cshtml" />
