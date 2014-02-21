@@ -42,7 +42,8 @@ function init() {
 
         map.controls.add(btnAllObjects, { right: 5, top: 5 });
     });
-}
+}
+
 ymaps.ready(init);
 
 $(function () {
