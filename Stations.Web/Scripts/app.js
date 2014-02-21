@@ -1,4 +1,38 @@
-﻿$(document).ready(function () {
+﻿(function ($) {
+    $.fn.showLoader = function () {
+        var elem = $(this);
+        var loader = $('<div class="loader" />')
+            .append('<img src="/content/images/loader.gif" />');
+
+        var elemOffset = elem.offset();
+        loader.css("top", elemOffset.top);
+        loader.css("left", elemOffset.left);
+        loader.width(elem.width());
+        loader.height(elem.height());
+
+        elem.data("loader", true);
+        elem.data("loaderElem", loader);
+        $(document.body).append(loader);
+    };
+
+    $.fn.hideLoader = function () {
+        var elem = $(this);
+        if (elem.data("loader")) {
+            var loader = elem.data("loaderElem");
+            loader.remove();
+            elem.data("loader", false);
+            elem.removeData("loaderElem");
+        }
+    };
+    
+    $.extend($.expr[":"], {
+        containsi: function (e, i, m, s) {
+            return (e.textContent || e.innerText).toLowerCase().indexOf(m[3].toLowerCase()) > -1;
+        }
+    });
+})(jQuery);
+
+$(document).ready(function () {
     $(".navbar li a").each(function () {
         var elem = $(this);
         
@@ -13,7 +47,7 @@
             return false;
         }
     });
-    
+
     $(window).resize(function () {
         var h = $(window).height(),
             offsetTop = 100; // Calculate the top offset

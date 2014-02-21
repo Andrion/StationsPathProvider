@@ -146,10 +146,12 @@
     <Compile Include="Controllers\ParserController.cs" />
     <Compile Include="Controllers\ProgressHub.cs" />
     <Compile Include="Controllers\StationsController.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\RequestExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Helpers\ProezdByUrlDictionary.cs" />
     <Compile Include="Helpers\CamelCaseResolver.cs" />
     <Compile Include="Helpers\JsonConverter.cs" />
@@ -182,6 +184,14 @@
     <Compile Include="Migrations\201304271541348_RemoveMapStationAddHandledStation.Designer.cs">
       <DependentUpon>201304271541348_RemoveMapStationAddHandledStation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201304291605468_AddReplacementsTable.cs" />
+    <Compile Include="Migrations\201304291605468_AddReplacementsTable.Designer.cs">
+      <DependentUpon>201304291605468_AddReplacementsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201304291616041_RequiredFieldsInReplacements.cs" />
+    <Compile Include="Migrations\201304291616041_RequiredFieldsInReplacements.Designer.cs">
+      <DependentUpon>201304291616041_RequiredFieldsInReplacements.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\Direction.cs" />
@@ -189,10 +199,12 @@
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\HandledStation.cs" />
     <Compile Include="Models\Info.cs" />
+    <Compile Include="Models\Replacement.cs" />
     <Compile Include="Models\Schedule.cs" />
     <Compile Include="Models\ScheduleItem.cs" />
     <Compile Include="Models\Station.cs" />
     <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\TimeStopTransport.cs" />
     <Compile Include="Models\Transport.cs" />
     <Compile Include="Models\TransportType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -207,12 +219,14 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\images\loader.gif" />
     <Content Include="Content\style.css" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\Default.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\app.admin.map.google.js" />
     <Content Include="Scripts\app.admin.map.yandex.js" />
+    <Content Include="Scripts\app.admin.replacements.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -222,6 +236,11 @@
     <Content Include="Scripts\jquery.signalR-1.0.1.min.js" />
     <Content Include="Scripts\jQuery.tmpl.js" />
     <Content Include="Scripts\jQuery.tmpl.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -234,9 +253,11 @@
     <Content Include="Views\_Layout.cshtml" />
     <Content Include="Views\Parser\Progress.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\ParseTime.cshtml" />
     <Content Include="Views\Admin\MapGStations.cshtml" />
     <Content Include="Views\Admin\TestMap.cshtml" />
     <Content Include="Views\Admin\MAPYStations.cshtml" />
+    <Content Include="Views\Admin\Replacements.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -265,6 +286,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201304271541348_RemoveMapStationAddHandledStation.resx">
       <DependentUpon>201304271541348_RemoveMapStationAddHandledStation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304291605468_AddReplacementsTable.resx">
+      <DependentUpon>201304291605468_AddReplacementsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304291616041_RequiredFieldsInReplacements.resx">
+      <DependentUpon>201304291616041_RequiredFieldsInReplacements.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

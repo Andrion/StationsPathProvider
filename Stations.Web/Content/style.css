@@ -2,11 +2,17 @@
     margin-top: 20px;
 }
 
+.row { margin-left: 0; }
+
 .stations { overflow-x: auto; }
 .stations .active { background: rgba(150, 255, 255, 0.3); }
 .station { margin: 6px 0; padding: 2px 8px; cursor: pointer; }
 
+.loader { width: 120px; height: 120px; position: absolute; top: 0; left: 0; text-align: center; } /* background: rgba(0, 0, 0, 0.5); */
+.loader img { width: 120px; height: 120px; position: absolute; left: 50%; top: 50%; margin: -60px 0 0 -60px; }
+
 /* Intellisense */
 .body {}
 .window-height {}
+.loading {}
 /* End Intellisense */

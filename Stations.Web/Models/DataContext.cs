@@ -37,6 +37,8 @@
 
         public DbSet<ScheduleItem> ScheduleItems { get; set; }
 
+        public DbSet<Replacement> Replacements { get; set; }
+
         #endregion DbSets
 
         #region Methods

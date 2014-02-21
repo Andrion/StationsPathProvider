@@ -7,12 +7,16 @@ var viewAllObjects = false;
 
 var cityName = "Гомель";
 
-var apiKey = "AMHTe1EBAAAAOEenHgQAz4QIRivO2iC7Wc4jbm8M698lUHUAAAAAAAAAAADaI3VteFcmN6TORqr7iEA95JNpxw==";
+var apiKey = ymapsApiKey;
+
+var replaceDictionary = {
+    "мкр.": "микрорайон"
+};
 
 function init() {
     mapObjects = new ymaps.GeoObjectCollection();
 
-    ymaps.geocode("Гомель", { results: 1 }).then(function (result) {
+    ymaps.geocode(cityName, { results: 1 }).then(function (result) {
         var gomelObj = result.geoObjects.get(0);
         
         map = new ymaps.Map("map", {
@@ -42,16 +46,31 @@ function init() {
 
         map.controls.add(btnAllObjects, { right: 5, top: 5 });
     });
-}
-
-ymaps.ready(init);
+}ymaps.ready(init);
 
 $(function () {
+    var lstStations = $("#lstStations");
+    lstStations.showLoader();
+
     $.get("/stations/get", {}, function (data) {
         $("#tmplStation").tmpl(data).appendTo("#lstStations");
+        lstStations.hideLoader();
+        $("#pNameFilter").show();
     });
 
-    var lstStations = $("#lstStations");
+    $("#tbxNameFilter").keyup(function () {
+        var elem = $(this);
+        var val = elem.val();
+
+        var liElems = lstStations.children("li");
+        
+        if (val.length == 0) {
+            liElems.show();
+        } else {
+            liElems.hide();
+            liElems.filter(":containsi(" + val + ")").show();
+        }
+    });
 
     lstStations.on("click", "li", function() {
         var elem = $(this);
@@ -79,13 +98,13 @@ $(function () {
         var elem = $(this);
 
         var id = elem.data("id");
-        var lat = elem.data("lat");
-        var lng = elem.data("lng");
+        var lat = parseFloat(elem.data("lat"));
+        var lng = parseFloat(elem.data("lng"));
 
         setStation(id, lat, lng, function () {
             var li = lstStations.find("[data-id=" + id + "]");
             li.data("lat", lat);
-            li.data("аlng", lng);
+            li.data("lng", lng);
             var im = li.find("i");
             im.removeClass();
             im.addClass("icon-ok");
@@ -96,6 +115,11 @@ $(function () {
 function filterName(name) {
     name = name.replace(/\s*\([-\s,._a-zA-Zа-яА-ЯёЁ]+\)$/, "");
     name = name.replace(/-[-_,.a-zA-Zа-яА-ЯёЁ]{1,}/, "");
+    
+    for (key in replaceDictionary) {
+        name = name.split(key).join(replaceDictionary[key]);
+    }
+
     console.log("search: ", name);
     return name;
 }
@@ -169,8 +193,8 @@ function setMarker(title, id, lat, lng, kind, sLat, sLng) {
 function setStation(id, lat, lng, callback) {
     var req = {
         id: id,
-        lat: lat.toString().replace(".", ","),
-        lng: lng.toString().replace(".", ",")
+        lat: lat,
+        lng: lng
     };
 
     $.post("/stations/set", req, function (data) {
